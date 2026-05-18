@@ -48,7 +48,6 @@ def quantum_substraction(x: int, y: int):
     isa_circuit = pass_manager.run(circuit)
     job = simulator.run(isa_circuit)
     result = list(list(job.result().get_counts().keys())[0])
-    print(result)
 
     # Transformer le bitstring
     resultat = int("".join(map(str, result)), 2)

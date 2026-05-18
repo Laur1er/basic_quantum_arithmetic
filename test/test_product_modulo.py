@@ -3,9 +3,9 @@ from basic_quantum_arithmetic.controlled_product_modulo import quantum_product_m
 
 def test_product_modulo():
 
-    x1, a1, mod1 = 5, 0, 12
-    x2, a2, mod2 = 2, 12, 24
-    x3, a3, mod3 = 24, 13, 27
+    x1, a1, mod1 = ((5, 0, 12),)
+    x2, a2, mod2 = ((2, 12, 24),)
+    x3, a3, mod3 = ((24, 13, 27),)
 
     exp1 = (x1 * a1) % mod1
     exp2 = (x2 * a2) % mod2

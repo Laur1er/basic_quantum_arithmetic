@@ -1,29 +1,30 @@
-# Effectuer l'operation unitaire |a,b> -> |a,b+a(mod N)>
 import numpy as np
+from qiskit.circuit import QuantumRegister, ClassicalRegister, QuantumCircuit, Gate
+from basic_quantum_arithmetic.utils import (
+    build_addition_gate,
+    build_substraction_gate,
+    run_quantum_arithmetic_operation,
+)
 
-from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
-from qiskit.transpiler import generate_preset_pass_manager
-from qiskit_aer import AerSimulator
 
-from basic_quantum_arithmetic.utils import build_addition_gate, build_substraction_gate
-
-
-def quantum_addition_modulo(a: int, b: int, mod: int):
+def quantum_addition_modulo(a: int, b: int, mod: int) -> int:
     """
-    Computes the addition modulo of two numbers smaller than mod.
+    Computes the addition modulo of two numbers smaller than mod: (a+b) mod (mod)
     Params:
-        a (int): Integer smaller than mod
-        b (int): Integer smaller than mod
-        mod (int): The modulo
+        a: Integer smaller than mod
+        b: Integer smaller than mod
+        mod: The modulo
     Returns:
         int : The result of a + b (mod mod)
     """
+    assert 0 <= a < mod, "a must be greater than or equal to 0 and smaller than mod"
+    assert 0 <= b < mod, "b must be greater than or equal to 0 and smaller than mod"
+    assert mod > 0, "mod must be greater than 0"
 
     a_bin = np.array(list(f"{a:b}"[::-1])).astype(np.int8)
     b_bin = np.array(list(f"{b:b}"[::-1])).astype(np.int8)
     mod_bin = np.array(list(f"{mod:b}"[::-1])).astype(np.int8)
 
-    # Initialisation du circuit et des registres
     num_qubits = mod_bin.size
 
     reg_a = QuantumRegister(num_qubits, "a")
@@ -73,16 +74,4 @@ def quantum_addition_modulo(a: int, b: int, mod: int):
     # Étape 9: On annule la soustraction précédente afin de retrouver le bon b
     circuit.compose(addition, reg_a[:] + reg_b[:] + reg_c[:], inplace=True)
 
-    circuit.measure(reg_b, reg_res)
-
-    # Simulons afin de voir le bitstring résultant
-    simulator = AerSimulator()
-    pass_manager = generate_preset_pass_manager(3, simulator)
-    isa_circuit = pass_manager.run(circuit)
-    job = simulator.run(isa_circuit)
-    result = list(list(job.result().get_counts().keys())[0])
-
-    # Transformer le bitstring
-    resultat = int("".join(map(str, result)), 2)
-
-    return resultat
+    return run_quantum_arithmetic_operation(circuit, reg_b, reg_res)

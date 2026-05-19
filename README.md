@@ -34,8 +34,20 @@ The algorithm follows the following steps:
 5. Finally, the circuit is done and we can measure the register b. The result will be a + b and the carry register is back to 0.
 
 #### Usage
-The fonction `basic_quantum_arithmetic.addition.quantum_addition(x: int, y: int) -> int` performs the sum of x and y using exactly this algorithm, it returns the sum as an integer.
+The fonction `basic_quantum_arithmetic.quantum_addition(x: int, y: int) -> int` performs the sum of x and y using exactly this algorithm, it returns the sum as an integer.
 
-The fonction `basic_quantum_arithmetic.addition.build_addition_gate(num_qubits: int) -> Gate` makes the addition gate for a given number of qubits. The gate doesn't include the encoding part, so the user should encode 'a' and 'b' before using the gate. When applying it on a circuit, the user should make sure that there are three quantum registers named 'add', 'b_to_res' and 'ancilla_add' with the correct sizes.
+The fonction `basic_quantum_arithmetic.build_addition_gate(num_qubits: int) -> Gate` makes the addition gate for a given number of qubits. The gate doesn't include the encoding part, so the user should encode 'a' and 'b' before using the gate. When applying it on a circuit, the user should make sure that there are three quantum registers with the correct sizes.
 
-The qubits should be ordered in the following way: 'add' register, then 'b_to_res' register and finally 'ancilla_add' register. The 'add' register should have 'num_qubits' qubits and the 'b_to_res' register should have 'num_qubits + 1' qubits, while the 'ancilla_add' register should have 'num_qubits' qubits.
+The qubits should be ordered in the following way: 'add' register, then 'b_to_res' register and finally 'ancilla' register. The 'add' register should have 'num_qubits' qubits and the 'b_to_res' register should have 'num_qubits + 1' qubits, while the 'ancilla_add' register should have 'num_qubits' qubits.
+
+### 2. Subtraction
+The subtraction algorithm is exactly the addition algorithm, but reversed. This is due to the fact that if we apply each gate of the network in reversed order, we get |a,b> -> |a,b-a>. In the case of a > b, then the output will be |a,2^(n+1) - b + a> because there will be an overflow.
+
+#### Usage
+The fonction `basic_quantum_arithmetic.quantum_subtraction(x: int, y: int) -> int` performs the absolute difference of x and y using exactly this algorithm, it returns the result as an integer.
+
+The fonction `basic_quantum_arithmetic.build_subtraction_gate(num_qubits: int) -> Gate` makes the subtraction gate for a given number of qubits. The gate doesn't include the encoding part, so the user should encode \ket{b} and \ket{b} before using the gate. When applying it on a circuit, the user should make sure that there are three quantum registers with the correct sizes.
+
+The qubits should be ordered in the following way: 'add' register, then 'b_to_res' register and finally 'ancilla' register. The 'add' register should have 'num_qubits' qubits and the 'b_to_res' register should have 'num_qubits + 1' qubits, while the 'ancilla_add' register should have 'num_qubits' qubits.
+
+

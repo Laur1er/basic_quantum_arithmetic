@@ -1,9 +1,5 @@
-# Effectuer l'operation unitaire |a,b> -> |a,b+a>
 import numpy as np
-
 from qiskit.circuit import QuantumRegister, ClassicalRegister, QuantumCircuit, Gate
-from qiskit.transpiler import generate_preset_pass_manager
-from qiskit_aer import AerSimulator
 
 from basic_quantum_arithmetic.utils import run_quantum_arithmetic_operation
 
@@ -43,13 +39,16 @@ def quantum_addition(x: int, y: int) -> int:
 
 def build_addition_gate(num_qubits: int) -> Gate:
     """
-    The adder circuit perform the transformation |a,b> -> |a,a+b>, given a number of qubits.
-    The number of qubits is the lenght of the register representing |a>.
+    The addition gate perform the unitary transformation |a,b> -> |a,b+a> using an ancilla register of len(num_qubits).
+    The number of qubits is the lenght of the register representing |a> and the ancilla register
     The number of qubits of the register |b> should be num_qubits + 1.
-    This circuit utilises an ancilla register |c> of lenght num_qubits.
+    In order to use this gate, the registers must already be loaded with the right numbers and the order should be |a>, |b> and |ancilla>.
+
+    Params:
+        num_qubits (int): Number of qubits in the register |a> and |ancilla>.
 
     Return:
-        QuantumCircuit making the transformation, the circuit has 3 registers |a>:num_qubits |b>:num_qubits + 1 and |c>:num_qubits
+        Gate: Gate acting on 3 register. Total number of qubits is (3 * num_qubits) + 1, in order |a>,|b> and |0>
     """
 
     def build_retenue_gate() -> Gate:

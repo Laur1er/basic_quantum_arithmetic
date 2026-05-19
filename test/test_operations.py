@@ -1,6 +1,11 @@
-from basic_quantum_arithmetic import quantum_addition_modulo
-from basic_quantum_arithmetic import quantum_addition, quantum_product_modulo
+from basic_quantum_arithmetic import (
+    quantum_addition,
+    quantum_addition_modulo,
+    quantum_product_modulo,
+    quantum_subtraction,
+)
 
+import numpy as np
 import pytest
 
 
@@ -16,6 +21,11 @@ def test_addition(x, y):
     assert quantum_addition(x, y) == x + y
 
 
-@pytest.mark.parametrize("x,y,mod", [(5, 0, 12), (2, 12, 24), (24, 13, 27)])
+@pytest.mark.parametrize("x,a,mod", [(5, 0, 12), (2, 12, 24), (24, 13, 27)])
 def test_product_modulo(x, a, mod):
     assert quantum_product_modulo(a, x, mod) == (a * x) % mod
+
+
+@pytest.mark.parametrize("x,y", [(5, 10), (2, 12), (24, 13), (55, 19)])
+def test_subtraction(x, y):
+    assert quantum_subtraction(x, y) == np.abs(x - y)

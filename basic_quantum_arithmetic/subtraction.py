@@ -4,7 +4,7 @@ import numpy as np
 from qiskit.circuit import QuantumRegister, ClassicalRegister, QuantumCircuit, Gate
 from basic_quantum_arithmetic.utils import run_quantum_arithmetic_operation
 
-from basic_quantum_arithmetic import build_addition_gate
+from basic_quantum_arithmetic.addition import build_addition_gate
 
 
 def quantum_subtraction(x: int, y: int):

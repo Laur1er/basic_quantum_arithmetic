@@ -13,6 +13,9 @@ from basic_quantum_arithmetic.addition_modulo import (
 )
 from basic_quantum_arithmetic.controlled_product_modulo import (
     quantum_product_modulo,
-    build_controlled_multiplication_modulo_gate,
+    build_controlled_product_modulo_gate,
 )
-from basic_quantum_arithmetic.exponentiation_modulaire import quantum_exponential
+from basic_quantum_arithmetic.exponentiation_modulo import (
+    quantum_exponential,
+    build_exponential_modulo_gate,
+)

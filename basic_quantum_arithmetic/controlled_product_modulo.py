@@ -47,9 +47,7 @@ def quantum_product_modulo(a: int, x: int, N: int):
     # Activons le registre de control
     circuit.x(reg_ctrl)
 
-    multiplication_mod_gate = build_controlled_multiplication_modulo_gate(
-        num_qubits, N, a
-    )
+    multiplication_mod_gate = build_controlled_product_modulo_gate(num_qubits, N, a)
     circuit.compose(
         multiplication_mod_gate,
         reg_b_to_res[:] + reg_N[:] + reg_x[:] + reg_ancilla[:] + reg_ctrl[:],
@@ -59,9 +57,7 @@ def quantum_product_modulo(a: int, x: int, N: int):
     return run_quantum_arithmetic_operation(circuit, reg_b_to_res, creg_res)
 
 
-def build_controlled_multiplication_modulo_gate(
-    num_qubits: int, N: int, multiplier: int
-):
+def build_controlled_product_modulo_gate(num_qubits: int, N: int, multiplier: int):
     """
     This does the trick, |x> et |N> doivent etre loader, le resultat est dans |b>
     """

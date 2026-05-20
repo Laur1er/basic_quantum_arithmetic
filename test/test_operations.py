@@ -32,6 +32,6 @@ def test_subtraction(x, y):
     assert quantum_subtraction(x, y) == np.abs(x - y)
 
 
-@pytest.mark.parametrize("a,x,mod", [(3, 7, 7)])
+@pytest.mark.parametrize("a,x,mod", [(3, 7, 7), (2, 8, 15), (5, 2, 9)])
 def test_exponential(a, x, mod):
     assert quantum_exponential(a, x, mod) == (a**x) % mod

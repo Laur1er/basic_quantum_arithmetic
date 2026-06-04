@@ -316,7 +316,7 @@ circuit = QuantumCircuit(
     reg_ancilla,
     reg_exp,
 )
-# On charge le registre |exp> et |N> ...
+# Load the registers |exp> and |N> ...
 
 circuit.compose(
     build_controlled_product_modulo_gate(num_qubits, N, a),
@@ -357,52 +357,7 @@ pytest test/ -v
 
 ---
 
-## Building & Publishing with Flit
 
-This project uses [Flit](https://flit.pypa.io/) as its build system. Flit reads configuration from `pyproject.toml` and automatically:
-
-- reads the **version** from `basic_quantum_arithmetic/__init__.py` (`__version__`)
-- reads the **description** from the module docstring in `__init__.py`
-- packages everything inside the `basic_quantum_arithmetic/` directory
-
-### Build the package
-
-```bash
-flit build
-```
-
-This creates a `dist/` directory containing the `.tar.gz` and `.whl` distribution files.
-
-### Publish to PyPI
-
-1. Create an account on [PyPI](https://pypi.org/) and generate an API token.
-2. Run:
-
-```bash
-flit publish
-```
-
-Flit will prompt for credentials (username: `__token__`, password: your API token).
-
-### Publish to TestPyPI first (recommended)
-
-```bash
-flit publish --repository testpypi
-```
-
-Then install and verify:
-
-```bash
-pip install -i https://test.pypi.org/simple/ basic_quantum_arithmetic
-```
-
----
-
-## License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
----
 
 ## Author
 
